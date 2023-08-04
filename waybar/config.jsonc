@@ -1,0 +1,208 @@
+{
+  "position": "top",
+  "layer": "top",
+  "height": 0,
+  "margin-top": 0,
+  "margin-bottom": 0,
+  "margin-left": 0,
+  "margin-right": 0,
+  "modules-left": [
+    "custom/launcher",
+    "wlr/workspaces",
+    "wlr/taskbar"
+  ],
+  "modules-center": [
+    "custom/playerctl1",
+    "custom/playerctl",
+    "custom/playerctl2"
+  ],
+  "modules-right": [
+    "tray",
+    "idle_inhibitor",
+    "pulseaudio",
+    "clock",
+    "custom/lock",
+    "custom/powerbtn"
+  ],
+  "clock": {
+    "format": " {:%H:%M}",
+    "tooltip": "true",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": " {:%d/%m}"
+  },
+  "wlr/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "sort-by-number": true,
+    "format-icons": {
+      "1": "main  ",
+      "2": "2  ",
+      "3": "3  ",
+      "4": "4  ",
+      "5": "5  ",
+      "6": "6  ",
+      "7": "7  ",
+      "8": "8  ",
+      "9": "9  ",
+      "10": " 10 ",
+      "focused": "",
+      "default": ""
+    },
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 10
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 24,
+    "all-outputs": true,
+    "tooltip-format": "{name} - {title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [
+      "wofi"
+    ]
+  },
+  "custom/powerbtn": {
+    "format": "⏻ ",
+    "on-click": "wlogout",
+    "tooltip": false
+  },
+  "custom/playerctl2": {
+    "tooltip" : false,
+    "format": " ",
+    "return-type": "json",
+    "max-length": 64,
+    "exec": "playerctl -a metadata --format '{\"alt\": \"{{status}}\", \"class\": \"{status}}\"}' -F",
+    "on-click": "playerctl next"
+  },
+  "custom/playerctl1": {
+    "tooltip" : false,
+    "format": " ",
+    "return-type": "json",
+    "max-length": 64,
+    "exec": "playerctl -a metadata --format '{\"alt\": \"{{status}}\", \"class\": \"{status}}\"}' -F",
+    "on-click": "playerctl previous"
+  },
+  "custom/playerctl": {
+    "format": "{icon}",
+    "return-type": "json",
+    "max-length": 64,
+    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click": "playerctl play-pause",
+    "format-icons": {
+      "Playing": " ",
+      "Paused": " "
+    }
+  },
+  "custom/playerlabel": {
+    "format": "<span>{}</span>",
+    "return-type": "json",
+    "max-length": 48,
+    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click-middle": "playerctl play-pause",
+    "on-click": "playerctl previous",
+    "on-click-right": "playerctl next",
+    "format-icons": {
+      "Playing": "<span foreground='#E5B9C6'>󰒮 󰐌 󰒭</span>",
+      "Paused": "<span foreground='#928374'>󰒮 󰏥 󰒭</span>"
+    }
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "{capacity}% ",
+    "format-plugged": "{capacity}% ",
+    "format-alt": "{icon} {time}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 360,
+    "separate-outputs": true
+  },
+  "custom/lock": {
+    "format": "",
+    "on-click": "/home/dibya/.config/hypr/scripts/LockScreen.sh",
+    "tooltip": false
+  },
+  "network": {
+    "format-wifi": "󰤨",
+    "format-ethernet": " {ifname}: Aesthetic",
+    "format-linked": " {ifname} (No IP)",
+    "format-disconnected": "󰤭",
+    "format-alt": " {ifname}: {ipaddr}/{cidr}",
+    "tooltip-format": "{essid}",
+    "on-click-right": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "tooltip": false,
+    "format-muted": " Muted",
+    "on-click": "pamixer -t",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "pamixer -i 5",
+    "on-scroll-down": "pamixer -d 5",
+    "on-click-middle": "pkill -f pavucontrol",
+    "scroll-step": 5,
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰛐",
+      "deactivated": "󰛑"
+    },
+    "tooltip": true
+  },
+  "custom/randwall": {
+    "format": "󰏘",
+    "on-click": "bash $HOME/.config/hypr/randwall.sh",
+    "on-click-right": "bash $HOME/.config/hypr/wall.sh"
+  },
+  "custom/launcher": {
+    "format": "<span style=\"italic\">  {}</span>",
+    "on-click": "killall rofi || rofi -show drun -theme ~/.config/rofi/launchers/type-2/style-4.rasi",
+    "on-click-right": "nwg-drawer"
+  },
+  "custom/wf-recorder": {
+    "format": "{}",
+    "interval": "once",
+    "exec": "echo ''",
+    "tooltip": "false",
+    "exec-if": "pgrep 'wf-recorder'",
+    "on-click": "exec ./scripts/wlrecord.sh",
+    "signal": 8
+  },
+  "custom/hyprpicker": {
+    "format": "󰈋",
+    "on-click": "hyprpicker -a -f hex",
+    "on-click-right": "hyprpicker -a -f rgb"
+  }
+}
