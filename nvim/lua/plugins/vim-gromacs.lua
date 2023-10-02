@@ -1,4 +1,4 @@
 return {
-  "wakatime/vim-wakatime",
+  "HubLot/vim-gromacs",
   event = "VeryLazy",
 }

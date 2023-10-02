@@ -1,12 +1,14 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  branch = "main", -- HACK: force neo-tree to checkout `main` for initial v3 migration since default branch has changed
+  -- branch = "main", -- HACK: force neo-tree to checkout `main` for initial v3 migration since default branch has changed
   dependencies = { "MunifTanjim/nui.nvim" },
   cmd = "Neotree",
-  init = function() vim.g.neo_tree_remove_legacy_commands = true end,
+  init = function()
+    vim.g.neo_tree_remove_legacy_commands = true
+  end,
   opts = function()
-    local utils = require "astronvim.utils"
-    local get_icon = utils.get_icon
+    -- local utils = require("astronvim.utils")
+    -- local get_icon = utils.get_icon
     return {
       auto_clean_after_session_restore = true,
       close_if_last_window = true,
@@ -14,36 +16,36 @@ return {
       source_selector = {
         winbar = true,
         content_layout = "center",
-        sources = {
-          { source = "filesystem", display_name = get_icon("FolderClosed", 1, true) .. "File" },
-          { source = "buffers", display_name = get_icon("DefaultFile", 1, true) .. "Bufs" },
-          { source = "git_status", display_name = get_icon("Git", 1, true) .. "Git" },
-          { source = "diagnostics", display_name = get_icon("Diagnostic", 1, true) .. "Diagnostic" },
-        },
+        -- sources = {
+        --   { source = "filesystem", display_name = get_icon("FolderClosed", 1, true) .. "File" },
+        --   { source = "buffers", display_name = get_icon("DefaultFile", 1, true) .. "Bufs" },
+        --   { source = "git_status", display_name = get_icon("Git", 1, true) .. "Git" },
+        --   { source = "diagnostics", display_name = get_icon("Diagnostic", 1, true) .. "Diagnostic" },
+        -- },
       },
       default_component_configs = {
         indent = { padding = 0 },
-        icon = {
-          folder_closed = get_icon "FolderClosed",
-          folder_open = get_icon "FolderOpen",
-          folder_empty = get_icon "FolderEmpty",
-          folder_empty_open = get_icon "FolderEmpty",
-          default = get_icon "DefaultFile",
-        },
-        modified = { symbol = get_icon "FileModified" },
-        git_status = {
-          symbols = {
-            added = get_icon "GitAdd",
-            deleted = get_icon "GitDelete",
-            modified = get_icon "GitChange",
-            renamed = get_icon "GitRenamed",
-            untracked = get_icon "GitUntracked",
-            ignored = get_icon "GitIgnored",
-            unstaged = get_icon "GitUnstaged",
-            staged = get_icon "GitStaged",
-            conflict = get_icon "GitConflict",
-          },
-        },
+        -- icon = {
+        --   folder_closed = get_icon("FolderClosed"),
+        --   folder_open = get_icon("FolderOpen"),
+        --   folder_empty = get_icon("FolderEmpty"),
+        --   folder_empty_open = get_icon("FolderEmpty"),
+        --   default = get_icon("DefaultFile"),
+        -- },
+        -- modified = { symbol = get_icon("FileModified") },
+        -- git_status = {
+        --   symbols = {
+        --     added = get_icon("GitAdd"),
+        --     deleted = get_icon("GitDelete"),
+        --     modified = get_icon("GitChange"),
+        --     renamed = get_icon("GitRenamed"),
+        --     untracked = get_icon("GitUntracked"),
+        --     ignored = get_icon("GitIgnored"),
+        --     unstaged = get_icon("GitUnstaged"),
+        --     staged = get_icon("GitStaged"),
+        --     conflict = get_icon("GitConflict"),
+        --   },
+        -- },
       },
       commands = {
         system_open = function(state)
@@ -86,29 +88,33 @@ return {
             ["URI"] = vim.uri_from_fname(filepath),
           }
 
-          local options = vim.tbl_filter(function(val) return vals[val] ~= "" end, vim.tbl_keys(vals))
-          if vim.tbl_isempty(options) then
-            utils.notify("No values to copy", vim.log.levels.WARN)
-            return
-          end
+          local options = vim.tbl_filter(function(val)
+            return vals[val] ~= ""
+          end, vim.tbl_keys(vals))
+          -- if vim.tbl_isempty(options) then
+          --   utils.notify("No values to copy", vim.log.levels.WARN)
+          -- return
+          --end
           table.sort(options)
           vim.ui.select(options, {
             prompt = "Choose to copy to clipboard:",
-            format_item = function(item) return ("%s: %s"):format(item, vals[item]) end,
+            format_item = function(item)
+              return ("%s: %s"):format(item, vals[item])
+            end,
           }, function(choice)
-            local result = vals[choice]
-            if result then
-              utils.notify(("Copied: `%s`"):format(result))
-              vim.fn.setreg("+", result)
-            end
+            -- local result = vals[choice]
+            -- if result then
+            --   utils.notify(("Copied: `%s`"):format(result))
+            --   vim.fn.setreg("+", result)
+            -- end
           end)
         end,
         find_in_dir = function(state)
           local node = state.tree:get_node()
           local path = node:get_id()
-          require("telescope.builtin").find_files {
+          require("telescope.builtin").find_files({
             cwd = node.type == "directory" and path or vim.fn.fnamemodify(path, ":h"),
-          }
+          })
         end,
       },
       window = {
@@ -117,7 +123,7 @@ return {
           ["<space>"] = false, -- disable space until we figure out which-key disabling
           ["[b"] = "prev_source",
           ["]b"] = "next_source",
-          F = utils.is_available "telescope.nvim" and "find_in_dir" or nil,
+          -- F = utils.is_available("telescope.nvim") and "find_in_dir" or nil,
           O = "system_open",
           Y = "copy_selector",
           h = "parent_or_close",
@@ -137,7 +143,9 @@ return {
       event_handlers = {
         {
           event = "neo_tree_buffer_enter",
-          handler = function(_) vim.opt_local.signcolumn = "auto" end,
+          handler = function(_)
+            vim.opt_local.signcolumn = "auto"
+          end,
         },
       },
     }
